@@ -17,4 +17,14 @@
   --color-gray-600: #1F2025;
 
   --color-feedback-danger: #B12C4D;
+
+  --text-xxs: 10px;
+  --text-xxs--line-height: 14px;
 }
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+}
+
