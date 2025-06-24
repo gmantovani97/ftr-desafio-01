@@ -1,12 +1,18 @@
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
+import { tv, type VariantProps } from 'tailwind-variants';
 
-interface CardProps {
-  children: ReactNode;
-}
+const cardVariants = tv({
+  base: 'bg-white rounded-lg shadow-sm shadow-gray-200 p-6 w-full',
+});
 
-export function Card({ children }: CardProps) {
+type CardProps = ComponentProps<'div'> &
+  VariantProps<typeof cardVariants> & {
+    children: ReactNode;
+  };
+
+export function Card({ children, className, ...props }: CardProps) {
   return (
-    <div className="bg-white rounded-lg shadow-sm shadow-gray-200 p-6 w-full">
+    <div className={cardVariants({ className })} {...props}>
       {children}
     </div>
   );

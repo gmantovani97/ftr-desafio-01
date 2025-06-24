@@ -11,15 +11,6 @@ const inputVariants = tv({
   },
 });
 
-const labelVariants = tv({
-  base: 'text-gray-500',
-  variants: {
-    error: {
-      true: 'text-feedback-danger!',
-    },
-  },
-});
-
 type InputProps = ComponentProps<'input'> &
   VariantProps<typeof inputVariants> & {
     title: string;
@@ -34,8 +25,11 @@ export function Input({
   ...props
 }: InputProps) {
   return (
-    <div className="flex flex-col gap-2 focus-within:[&>label]:text-blue-base focus-within:[&>label]:font-bold">
-      <label className={labelVariants({ error, className: 'text-xxs' })}>
+    <div
+      className="flex flex-col gap-2 focus-within:[&>label]:text-blue-base focus-within:[&>label]:font-bold group"
+      aria-invalid={error}
+    >
+      <label className="text-xxs text-gray-500 group-aria-invalid:text-feedback-danger!">
         {title}
       </label>
       <input
