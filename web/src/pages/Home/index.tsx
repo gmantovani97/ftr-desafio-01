@@ -7,7 +7,7 @@ import { ListItem } from './components/list-item';
 
 export function Home() {
   const links = useMemo(() => {
-    return Array.from({ length: 10 }).map(() => {
+    return Array.from({ length: 30 }).map(() => {
       const originalUrl = faker.internet
         .url({ appendSlash: false })
         .replace('https://', '');
@@ -23,44 +23,44 @@ export function Home() {
     });
   }, []);
 
-  console.log(links);
-
   return (
-    <div className="h-full flex bg-gray-200 flex-col items-center px-3 py-8 gap-3">
-      <Header />
-      <Card>
-        <h1 className="text-lg font-bold mb-5">Novo link</h1>
-        <div className="flex flex-col gap-4">
-          <Input title="LINK ORIGINAL" placeholder="www.exemplo.com.br" />
-          <Input title="LINK ENCURTADO" placeholder="brev.ly/" />
-        </div>
-        <Button className="mt-5" disabled>
-          Salvar link
-        </Button>
-      </Card>
-      <Card>
-        <div className="flex items-center justify-between">
-          <h1 className="text-lg font-bold">Meus links</h1>
-          <Button variant="secondary">
-            <DownloadSimpleIcon size={16} />
-            Baixar CSV
+    <div className="h-full sm:overflow-hidden sm:h-screen bg-gray-200">
+      <div className="grid grid-cols-1 sm:grid-cols-2 px-3 py-8 gap-3 max-w-[1920px] mx-auto">
+        <Header />
+        <Card>
+          <h1 className="text-lg font-bold mb-5">Novo link</h1>
+          <div className="flex flex-col gap-4">
+            <Input title="LINK ORIGINAL" placeholder="www.exemplo.com.br" />
+            <Input title="LINK ENCURTADO" placeholder="brev.ly/" />
+          </div>
+          <Button className="mt-5" disabled>
+            Salvar link
           </Button>
-        </div>
-        {links.length ? (
-          <div className="flex flex-col gap-2 border-t mt-4 border-gray-200">
-            {links.map(link => (
-              <ListItem key={link.id} {...link} />
-            ))}
+        </Card>
+        <Card>
+          <div className="flex items-center justify-between">
+            <h1 className="text-lg font-bold">Meus links</h1>
+            <Button variant="secondary">
+              <DownloadSimpleIcon size={16} />
+              Baixar CSV
+            </Button>
           </div>
-        ) : (
-          <div className="flex flex-col items-center gap-2 border-t border-gray-200 p-4 pb-6 mt-4">
-            <LinkIcon size={32} className="text-gray-400" weight="bold" />
-            <span className="text-xxs text-gray-500">
-              AINDA NÃO EXISTEM LINKS CADASTRADOS
-            </span>
-          </div>
-        )}
-      </Card>
+          {links.length ? (
+            <div className="flex flex-col gap-2 border-t mt-4 border-gray-200 sm:overflow-y-auto sm:max-h-[calc(50vh)]">
+              {links.map(link => (
+                <ListItem key={link.id} {...link} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-2 border-t border-gray-200 p-4 pb-6 mt-4">
+              <LinkIcon size={32} className="text-gray-400" weight="bold" />
+              <span className="text-xxs text-gray-500">
+                AINDA NÃO EXISTEM LINKS CADASTRADOS
+              </span>
+            </div>
+          )}
+        </Card>
+      </div>
     </div>
   );
 }

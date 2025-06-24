@@ -28,10 +28,10 @@ export function ListItem({
         <span className="text-xs text-gray-500">{`${visits} acessos`}</span>
         <div className="flex items-center gap-2">
           <Button variant="icon">
-            <CopyIcon size={16} className="text-gray-600" weight="bold" />
+            <CopyIcon size={16} className="text-gray-600" />
           </Button>
           <Button variant="icon">
-            <TrashIcon size={16} className="text-gray-600" weight="bold" />
+            <TrashIcon size={16} className="text-gray-600" />
           </Button>
         </div>
       </div>
