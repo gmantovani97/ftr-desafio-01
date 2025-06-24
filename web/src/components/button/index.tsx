@@ -8,6 +8,7 @@ const buttonVariants = tv({
       primary: '',
       secondary:
         'w-auto p-2 bg-gray-200 text-gray-500 [&>svg]:text-gray-600 flex items-center gap-1.5 text-xs hover:bg-gray-200 hover:outline-none hover:ring-1 hover:ring-blue-base',
+      icon: 'w-auto h-auto p-2 bg-gray-200 rounded-sm text-gray-500 [&>svg]:text-gray-600 flex items-center gap-1.5 text-xs hover:bg-gray-200 hover:outline-none hover:ring-1 hover:ring-blue-base',
     },
   },
   defaultVariants: {
