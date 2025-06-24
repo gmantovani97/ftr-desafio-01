@@ -1,0 +1,25 @@
+{
+  "name": "ftr-desafio-01",
+  "version": "1.0.0",
+  "description": "Full-stack application with web and server components",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm run dev:web",
+    "dev:web": "pnpm --filter=web dev",
+    "dev:server": "pnpm --filter=server dev",
+    "build": "pnpm run build --recursive",
+    "build:web": "pnpm run build --filter=web",
+    "build:server": "pnpm run build --filter=server",
+    "lint": "pnpm run lint --recursive",
+    "lint:web": "pnpm run lint --filter=web",
+    "lint:server": "pnpm run lint --filter=server",
+    "format": "pnpm run format --recursive",
+    "format:web": "pnpm run format --filter=web",
+    "format:server": "pnpm run format --filter=server",
+    "install:all": "pnpm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "packageManager": "pnpm@9.9.0"
+}
