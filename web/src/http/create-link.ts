@@ -4,7 +4,7 @@ import {
   useQueryClient,
   type UseMutationResult,
 } from '@tanstack/react-query';
-import axios, { AxiosError, HttpStatusCode } from 'axios';
+import axios, { HttpStatusCode } from 'axios';
 
 export async function createLink(
   originalUrl: string,
@@ -12,21 +12,11 @@ export async function createLink(
 ): Promise<HttpStatusCode> {
   const userSessionId = getUserSessionId();
 
-  try {
-    const response = await axios.post('http://localhost:3333/link', {
-      originalUrl,
-      shortUrl,
-      userSessionId,
-    });
-
-    return response.status;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      return error.response?.status ?? HttpStatusCode.InternalServerError;
-    }
-
-    return HttpStatusCode.InternalServerError;
-  }
+  return axios.post('http://localhost:3333/link', {
+    originalUrl,
+    shortUrl,
+    userSessionId,
+  });
 }
 
 export function useCreateLink(): UseMutationResult<
@@ -35,9 +25,6 @@ export function useCreateLink(): UseMutationResult<
   {
     originalUrl: string;
     shortUrl: string;
-  },
-  {
-    onSuccess: () => void;
   }
 > {
   const queryClient = useQueryClient();

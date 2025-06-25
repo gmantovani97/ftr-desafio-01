@@ -1,7 +1,7 @@
 import { Button, Card, Input } from '@/components';
 import { useCreateLink } from '@/http/create-link';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { HttpStatusCode } from 'axios';
+import { AxiosError, HttpStatusCode } from 'axios';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -16,20 +16,31 @@ export function HomePageForm() {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
+    setError,
   } = useForm<Inputs>({
     resolver: zodResolver(formSchema),
   });
 
-  const { mutateAsync: createLink, isPending } = useCreateLink();
+  const { mutate: createLink, error, isPending } = useCreateLink();
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ originalUrl, shortUrl }) => {
-    const status = await createLink({ originalUrl, shortUrl });
+  console.log('errorerror', error);
 
-    if (status === HttpStatusCode.Conflict) {
-      setError('shortUrl', { message: 'O link encurtado já existe' });
+  const onError = (error: Error) => {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === HttpStatusCode.Conflict) {
+        setError('shortUrl', { message: 'O link encurtado já existe' });
+      }
     }
+  };
+
+  const onSubmit: SubmitHandler<Inputs> = ({ originalUrl, shortUrl }) => {
+    createLink(
+      { originalUrl, shortUrl },
+      {
+        onError,
+      }
+    );
   };
 
   return (
