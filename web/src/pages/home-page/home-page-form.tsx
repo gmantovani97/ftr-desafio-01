@@ -1,6 +1,7 @@
 import { Button, Card, Input } from '@/components';
 import { useCreateLink } from '@/http/create-link';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { HttpStatusCode } from 'axios';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -12,13 +13,23 @@ const formSchema = z.object({
 type Inputs = z.infer<typeof formSchema>;
 
 export function HomePageForm() {
-  const { register, handleSubmit, formState } = useForm<Inputs>({
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<Inputs>({
     resolver: zodResolver(formSchema),
   });
-  const { mutate: createLink, isPending } = useCreateLink();
 
-  const onSubmit: SubmitHandler<Inputs> = ({ originalUrl, shortUrl }) => {
-    createLink({ originalUrl, shortUrl });
+  const { mutateAsync: createLink, isPending } = useCreateLink();
+
+  const onSubmit: SubmitHandler<Inputs> = async ({ originalUrl, shortUrl }) => {
+    const status = await createLink({ originalUrl, shortUrl });
+
+    if (status === HttpStatusCode.Conflict) {
+      setError('shortUrl', { message: 'O link encurtado já existe' });
+    }
   };
 
   return (
@@ -34,6 +45,8 @@ export function HomePageForm() {
           <Input
             title="LINK ENCURTADO"
             placeholder="brev.ly/"
+            error={!!errors.shortUrl?.message}
+            errorMessage={errors.shortUrl?.message}
             {...register('shortUrl')}
           />
         </div>

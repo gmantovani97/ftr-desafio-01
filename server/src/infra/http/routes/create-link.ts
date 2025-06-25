@@ -13,14 +13,18 @@ export const createLinkRoute: FastifyPluginAsyncZod = async server => {
           originalUrl: z.string().url(),
           shortUrl: z.string().url(),
           userSessionId: z.string().uuid(),
-        }),
+        }).refine(
+          (data) => data.originalUrl !== data.shortUrl,
+          {
+            message: 'A URL original não pode ser igual à URL encurtada',
+            path: ['shortUrl'],
+          }
+        ),
         response: {
           204: z.null(),
-          400: z
-            .object({
-              message: z.string(),
-            })
-            .describe('Link already exists'),
+          409: z.object({
+            message: z.string(),
+          }).describe('Link already exists'),
         },
       },
     },
@@ -36,7 +40,7 @@ export const createLinkRoute: FastifyPluginAsyncZod = async server => {
       const error = unwrapEither(result)
 
       if (error.constructor.name === 'LinkAlreadyExistsError') {
-        return reply.status(400).send({ message: 'O link encurtado já existe' });
+        return reply.status(409).send({ message: 'O link encurtado já existe' });
       }
     }
   )
