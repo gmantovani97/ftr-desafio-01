@@ -24,12 +24,9 @@
     "noUncheckedSideEffectImports": true,
 
     /* Path mapping */
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "assets/*": ["src/assets/*"],
-      "components/*": ["src/components/*"],
-      "pages/*": ["src/pages/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src"]

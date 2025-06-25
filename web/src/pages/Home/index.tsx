@@ -1,8 +1,9 @@
-import { Button, Card, Input } from 'components';
-import { Header } from './components/header';
+import { Button, Card, Input } from '@/components';
+import { getUserSessionId } from '@/utils/userSession';
+import { faker } from '@faker-js/faker/locale/pt_BR';
 import { DownloadSimpleIcon, LinkIcon } from '@phosphor-icons/react';
 import { useMemo } from 'react';
-import { faker } from '@faker-js/faker/locale/pt_BR';
+import { Header } from './components/header';
 import { ListItem } from './components/list-item';
 
 export function Home() {
@@ -23,6 +24,31 @@ export function Home() {
     });
   }, []);
 
+  const handleCreateLink = async () => {
+    const userSessionId = getUserSessionId();
+
+    const originalUrl = 'https://www.google.com';
+    const shortUrl = 'https://brev.ly/google';
+
+    const response = await fetch('http://localhost:3333/link', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        originalUrl,
+        shortUrl,
+        userSessionId,
+      }),
+    });
+
+    if (response.ok) {
+      console.log('Link created successfully');
+    } else {
+      console.error('Failed to create link');
+    }
+  };
+
   return (
     <div className="h-full sm:overflow-hidden sm:h-screen bg-gray-200">
       <div className="grid grid-cols-1 sm:grid-cols-2 px-3 py-8 gap-3 max-w-[1920px] mx-auto">
@@ -33,7 +59,7 @@ export function Home() {
             <Input title="LINK ORIGINAL" placeholder="www.exemplo.com.br" />
             <Input title="LINK ENCURTADO" placeholder="brev.ly/" />
           </div>
-          <Button className="mt-5" disabled>
+          <Button className="mt-5" onClick={handleCreateLink}>
             Salvar link
           </Button>
         </Card>

@@ -1,0 +1,1 @@
+CREATE DATABASE ftr-desafio-01-test

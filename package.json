@@ -16,7 +16,10 @@
     "format": "pnpm run format --recursive",
     "format:web": "pnpm run format --filter=web",
     "format:server": "pnpm run format --filter=server",
-    "install:all": "pnpm install"
+    "install:all": "pnpm install",
+    "biome:format": "pnpm --filter=server format",
+    "biome:lint": "pnpm --filter=server lint",
+    "biome:check": "pnpm --filter=server check"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
