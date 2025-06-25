@@ -17,14 +17,27 @@ const buttonVariants = tv({
 });
 
 type ButtonProps = ComponentProps<'button'> &
-  VariantProps<typeof buttonVariants>;
+  VariantProps<typeof buttonVariants> & {
+    isLoading?: boolean;
+  };
 
-export function Button({ variant, className, ...props }: ButtonProps) {
+export function Button({
+  variant,
+  className,
+  isLoading,
+  ...props
+}: ButtonProps) {
   return (
     <button
       type="button"
       className={buttonVariants({ variant, className })}
       {...props}
-    />
+    >
+      {isLoading ? (
+        <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin justify-self-center" />
+      ) : (
+        props.children
+      )}
+    </button>
   );
 }
