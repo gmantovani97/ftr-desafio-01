@@ -1,21 +1,15 @@
-import { CopyIcon, TrashIcon } from '@phosphor-icons/react';
 import { Button } from '@/components';
+import { CopyIcon, TrashIcon } from '@phosphor-icons/react';
 
 interface ListItemProps {
   id: string;
   shortUrl: string;
   originalUrl: string;
   visits: number;
-  createdAt: string;
+  createdAt: Date;
 }
 
-export function ListItem({
-  createdAt,
-  id,
-  originalUrl,
-  shortUrl,
-  visits,
-}: ListItemProps) {
+export function ListItem({ originalUrl, shortUrl, visits }: ListItemProps) {
   return (
     <div className="flex items-center justify-between w-full py-3 border-b border-gray-200">
       <div className="flex flex-1 items-center gap-2">

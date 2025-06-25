@@ -1,27 +1,38 @@
 import { Button, Card, Input } from '@/components';
 import { getUserSessionId } from '@/utils/userSession';
-import { faker } from '@faker-js/faker/locale/pt_BR';
 import { DownloadSimpleIcon, LinkIcon } from '@phosphor-icons/react';
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from './components/header';
 import { ListItem } from './components/list-item';
 
-export function Home() {
-  const links = useMemo(() => {
-    return Array.from({ length: 30 }).map(() => {
-      const originalUrl = faker.internet
-        .url({ appendSlash: false })
-        .replace('https://', '');
-      const shortUrl = `brev.ly/${originalUrl.split('.')[0]}`;
+interface Link {
+  id: string;
+  shortUrl: string;
+  originalUrl: string;
+  visits: number;
+  createdAt: Date;
+}
 
-      return {
-        id: faker.string.uuid(),
-        shortUrl,
-        originalUrl,
-        visits: faker.number.int({ min: 0, max: 1000 }),
-        createdAt: faker.date.recent().toISOString(),
-      };
-    });
+export function Home() {
+  const [links, setLinks] = useState<Link[] | undefined>(undefined);
+  const retrieveLinks = async (): Promise<Link[] | undefined> => {
+    const userSessionId = getUserSessionId();
+
+    const response = await fetch(
+      `http://localhost:3333/links/${userSessionId}`
+    );
+
+    if (response.ok) {
+      console.log('Links retrieved successfully');
+      return response.json();
+    } else {
+      console.error('Failed to retrieve links');
+      return undefined;
+    }
+  };
+
+  useEffect(() => {
+    retrieveLinks().then(setLinks);
   }, []);
 
   const handleCreateLink = async () => {
@@ -71,7 +82,7 @@ export function Home() {
               Baixar CSV
             </Button>
           </div>
-          {links.length ? (
+          {links?.length ? (
             <div className="flex flex-col gap-2 border-t mt-4 border-gray-200 sm:overflow-y-auto sm:max-h-[calc(50vh)]">
               {links.map(link => (
                 <ListItem key={link.id} {...link} />
