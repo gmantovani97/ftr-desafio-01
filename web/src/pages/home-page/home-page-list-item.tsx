@@ -1,17 +1,28 @@
 import { Button } from '@/components';
+import { useDeleteLink } from '@/http/delete-link';
 import { CopyIcon, TrashIcon } from '@phosphor-icons/react';
 
-interface ListItemProps {
+interface HomePageListItemProps {
   id: string;
   shortUrl: string;
   originalUrl: string;
   visits: number;
-  createdAt: Date;
 }
 
-export function ListItem({ originalUrl, shortUrl, visits }: ListItemProps) {
+export function HomePageListItem({
+  id,
+  originalUrl,
+  shortUrl,
+  visits,
+}: HomePageListItemProps) {
+  const { mutate: deleteLink } = useDeleteLink();
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(shortUrl);
+  };
+
   return (
-    <div className="flex items-center justify-between w-full py-3 border-b border-gray-200">
+    <div className="flex items-center justify-between w-full py-3 px-0.5 border-b border-gray-200">
       <div className="flex flex-1 items-center gap-2">
         <div className="flex flex-1 flex-col">
           <span className="text-sm font-semibold text-blue-base">
@@ -21,10 +32,10 @@ export function ListItem({ originalUrl, shortUrl, visits }: ListItemProps) {
         </div>
         <span className="text-xs text-gray-500">{`${visits} acessos`}</span>
         <div className="flex items-center gap-2">
-          <Button variant="icon">
+          <Button variant="icon" onClick={handleCopyToClipboard}>
             <CopyIcon size={16} className="text-gray-600" />
           </Button>
-          <Button variant="icon">
+          <Button variant="icon" onClick={() => deleteLink({ id })}>
             <TrashIcon size={16} className="text-gray-600" />
           </Button>
         </div>

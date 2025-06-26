@@ -1,7 +1,7 @@
 import { Button, Card } from '@/components';
 import { useGetLinks } from '@/http/get-links';
 import { DownloadSimpleIcon, LinkIcon } from '@phosphor-icons/react';
-import { ListItem } from './components/list-item';
+import { HomePageListItem } from './home-page-list-item';
 
 export function HomePageLinksList() {
   const { data, isLoading, isError } = useGetLinks();
@@ -18,7 +18,7 @@ export function HomePageLinksList() {
       {data?.length && !isLoading && !isError ? (
         <div className="flex flex-col gap-2 border-t mt-4 border-gray-200 sm:overflow-y-auto sm:max-h-[calc(50vh)]">
           {data.map(link => (
-            <ListItem key={link.id} {...link} />
+            <HomePageListItem key={link.id} {...link} />
           ))}
         </div>
       ) : (
