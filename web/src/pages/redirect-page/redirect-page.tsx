@@ -10,7 +10,11 @@ export function RedirectPage() {
   return (
     <div className="h-screen sm:overflow-hidden bg-gray-200">
       <div className="flex h-full items-center justify-center px-3 py-8 gap-3 max-w-[1280px] mx-auto">
-        <RedirectPageCard originalUrl={data?.originalUrl} isError={isError} />
+        <RedirectPageCard
+          id={data?.id}
+          originalUrl={data?.originalUrl}
+          isError={isError}
+        />
       </div>
     </div>
   );

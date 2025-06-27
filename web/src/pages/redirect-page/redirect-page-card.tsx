@@ -1,18 +1,23 @@
 import error_image from '@/assets/404.svg';
 import logo from '@/assets/logo-icon.svg';
 import { Card } from '@/components';
+import { useUpdateVisits } from '@/http/update-visits';
 import { useEffect } from 'react';
 import { Link } from 'react-router';
 
 interface RedirectPageCardProps {
+  id: string;
   isError: boolean;
   originalUrl?: string;
 }
 
 export function RedirectPageCard({
+  id,
   originalUrl,
   isError,
 }: RedirectPageCardProps) {
+  const { mutate: updateVisits } = useUpdateVisits(id);
+
   const image = isError ? error_image : logo;
   const title = isError ? 'Link não encontrado' : 'Redirecionando...';
   const description = isError
@@ -21,7 +26,8 @@ export function RedirectPageCard({
 
   useEffect(() => {
     if (!isError && originalUrl) {
-      // setTimeout(() => window.location.replace(originalUrl), 2000);
+      updateVisits();
+      setTimeout(() => window.location.replace(originalUrl), 2000);
     }
   }, [originalUrl, isError]);
 

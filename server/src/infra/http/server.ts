@@ -14,6 +14,7 @@ import { createLinkRoute } from './routes/create-link'
 import { deleteLinkRoute } from './routes/delete-link'
 import { getLinksRoute } from './routes/get-links'
 import { getOriginalLinkRoute } from './routes/get-original-link'
+import { updateVisitsRoute } from './routes/update-visits'
 
 const server = fastify()
 
@@ -59,6 +60,7 @@ server.register(createLinkRoute)
 server.register(getLinksRoute)
 server.register(deleteLinkRoute)
 server.register(getOriginalLinkRoute)
+server.register(updateVisitsRoute)
 
 server.listen({ port: env.PORT, host: '0.0.0.0' }).then(() => {
   console.log('HTTP server running!')

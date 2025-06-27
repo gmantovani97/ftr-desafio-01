@@ -2,7 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 interface OriginalLink {
+  id: string;
   originalUrl: string;
+  shortUrl: string;
+  visits: number;
+  createdAt: Date;
 }
 
 async function getOriginalLink(shortUrl: string): Promise<OriginalLink> {

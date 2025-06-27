@@ -13,7 +13,11 @@ export const getOriginalLinkRoute: FastifyPluginAsyncZod = async server => {
       }),
       response: {
         200: z.object({
+          id: z.string().uuid(),
           originalUrl: z.string().url(),
+          shortUrl: z.string(),
+          visits: z.number(),
+          createdAt: z.date(),
         }),
         404: z.object({
           message: z.string(),

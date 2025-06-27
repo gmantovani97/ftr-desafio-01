@@ -11,15 +11,9 @@ export const createLinkRoute: FastifyPluginAsyncZod = async server => {
         summary: 'Create a new link',
         body: z.object({
           originalUrl: z.string().url(),
-          shortUrl: z.string().url(),
+          shortUrl: z.string(),
           userSessionId: z.string().uuid(),
-        }).refine(
-          (data) => data.originalUrl !== data.shortUrl,
-          {
-            message: 'A URL original não pode ser igual à URL encurtada',
-            path: ['shortUrl'],
-          }
-        ),
+        }),
         response: {
           204: z.null(),
           409: z.object({

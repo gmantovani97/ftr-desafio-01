@@ -6,13 +6,17 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 
 const formSchema = z.object({
-  originalUrl: z.string().url({ message: 'Link inválido' }),
-  shortUrl: z.string().min(1, { message: 'O campo é obrigatório' }),
+  originalUrl: z.string().trim().url({ message: 'Link inválido' }),
+  shortUrl: z
+    .string()
+    .trim()
+    .min(1, { message: 'O campo é obrigatório' })
+    .regex(/^[a-zA-Z0-9_-]+$/, {
+      message: 'Informe uma URL minúscula e sem espaço/caracter especial',
+    }),
 });
 
 type Inputs = z.infer<typeof formSchema>;
-
-const BASE_URL = 'https://brev.ly/';
 
 export function HomePageForm() {
   const {
@@ -40,11 +44,9 @@ export function HomePageForm() {
     reset();
   };
 
-  const generateShortUrl = (shortUrl: string) => `${BASE_URL}${shortUrl}`;
-
   const onSubmit: SubmitHandler<Inputs> = ({ originalUrl, shortUrl }) => {
     createLink(
-      { originalUrl, shortUrl: generateShortUrl(shortUrl) },
+      { originalUrl, shortUrl },
       {
         onError,
         onSuccess,

@@ -1,6 +1,7 @@
 import { getUserSessionId } from '@/utils/userSession';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useMemo } from 'react';
 
 interface Link {
   id: string;
@@ -21,8 +22,16 @@ async function getLinks(): Promise<Link[]> {
 }
 
 export function useGetLinks() {
+  const origin = useMemo(() => window.location.origin, []);
+
   return useQuery({
     queryKey: ['links'],
     queryFn: () => getLinks(),
+    select: data =>
+      data.map(link => ({
+        ...link,
+        shortUrlPath: link.shortUrl,
+        shortUrl: `${origin}/${link.shortUrl}`,
+      })),
   });
 }
