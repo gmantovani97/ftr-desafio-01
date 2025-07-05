@@ -12,14 +12,18 @@ export function HomePageLinksList() {
     <Card isLoading={isLoading}>
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-bold">Meus links</h1>
-        <Button variant="secondary" onClick={() => createReport()}>
+        <Button
+          variant="secondary"
+          onClick={() => createReport()}
+          disabled={!data?.length}
+        >
           <DownloadSimpleIcon size={16} />
           Baixar CSV
         </Button>
       </div>
       {isLoading && (
         <div className="flex flex-col items-center gap-2 border-t border-gray-200 p-4 pb-6 mt-4">
-          <span className="text-xxs text-gray-500">Carregando links...</span>
+          <span className="text-xxs text-gray-500">CARREGANDO LINKS...</span>
         </div>
       )}
       {!isLoading && !isError && !data?.length && (
@@ -30,7 +34,7 @@ export function HomePageLinksList() {
           </span>
         </div>
       )}
-      {data?.length && !isLoading && !isError && (
+      {!!data?.length && !isLoading && !isError && (
         <div className="flex flex-col gap-2 border-t mt-4 border-gray-200 sm:overflow-y-auto sm:max-h-[calc(50vh)]">
           {data.map(link => (
             <HomePageListItem key={link.id} {...link} />
