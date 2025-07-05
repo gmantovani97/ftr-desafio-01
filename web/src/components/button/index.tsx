@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 import { tv, type VariantProps } from 'tailwind-variants';
 
 const buttonVariants = tv({
-  base: 'bg-blue-base rounded-lg h-12 w-full text-white font-semibold hover:bg-blue-dark disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 disabled:pointer-events-none',
+  base: 'bg-blue-base rounded-lg h-12 w-full text-white font-semibold hover:bg-blue-dark disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 disabled:pointer-events-none transition-all',
   variants: {
     variant: {
       primary: '',

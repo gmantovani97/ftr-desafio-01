@@ -1,3 +1,4 @@
+import { useToast } from '@/hooks/useToast';
 import { getUserSessionId } from '@/utils/userSession';
 import {
   useMutation,
@@ -5,6 +6,7 @@ import {
   type UseMutationResult,
 } from '@tanstack/react-query';
 import axios, { HttpStatusCode } from 'axios';
+import { toast } from 'react-toastify';
 
 export async function createLink(
   originalUrl: string,
@@ -28,6 +30,7 @@ export function useCreateLink(): UseMutationResult<
   }
 > {
   const queryClient = useQueryClient();
+  const { notify } = useToast();
 
   return useMutation({
     mutationFn: ({
@@ -39,6 +42,9 @@ export function useCreateLink(): UseMutationResult<
     }) => createLink(originalUrl, shortUrl),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['links'] });
+    },
+    onError: () => {
+      notify({ message: 'Houve um erro ao criar o link', type: 'error' });
     },
   });
 }
