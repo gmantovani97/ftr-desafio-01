@@ -1,8 +1,10 @@
 import LinksController from '@/controllers/LinksController'
+import { ReportsController } from '@/controllers/ReportsController'
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 const linksController = new LinksController()
+const reportsController = new ReportsController()
 
 export const linksRoutes: FastifyPluginAsyncZod = async server => {
   server.post(
@@ -103,5 +105,23 @@ export const linksRoutes: FastifyPluginAsyncZod = async server => {
       },
     },
     linksController.updateVisits
+  )
+
+  server.post(
+    '/report',
+    {
+      schema: {
+        summary: 'Create a new report',
+        body: z.object({
+          userSessionId: z.string().uuid(),
+        }),
+        response: {
+          200: z.object({
+            reportUrl: z.string().url(),
+          }),
+        },
+      },
+    },
+    reportsController.create
   )
 } 
