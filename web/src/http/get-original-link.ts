@@ -10,7 +10,9 @@ interface OriginalLink {
 }
 
 async function getOriginalLink(shortUrl: string): Promise<OriginalLink> {
-  const response = await axios.get(`http://localhost:3333/link/${shortUrl}`);
+  const response = await axios.get(
+    `${import.meta.env.VITE_BACKEND_URL}/link/${shortUrl}`
+  );
 
   return response.data;
 }

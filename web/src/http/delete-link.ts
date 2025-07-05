@@ -6,7 +6,7 @@ import {
 import axios from 'axios';
 
 export async function deleteLink(id: string): Promise<void> {
-  return axios.delete(`http://localhost:3333/link/${id}`);
+  return axios.delete(`${import.meta.env.VITE_BACKEND_URL}/link/${id}`);
 }
 
 export function useDeleteLink(): UseMutationResult<

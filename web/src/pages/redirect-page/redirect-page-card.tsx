@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router';
 
 interface RedirectPageCardProps {
-  id: string;
+  id?: string;
   isError: boolean;
   originalUrl?: string;
 }
@@ -16,7 +16,7 @@ export function RedirectPageCard({
   originalUrl,
   isError,
 }: RedirectPageCardProps) {
-  const { mutate: updateVisits } = useUpdateVisits(id);
+  const { mutate: updateVisits } = useUpdateVisits({ id, originalUrl });
 
   const image = isError ? error_image : logo;
   const title = isError ? 'Link não encontrado' : 'Redirecionando...';
@@ -27,9 +27,8 @@ export function RedirectPageCard({
   useEffect(() => {
     if (!isError && originalUrl) {
       updateVisits();
-      setTimeout(() => window.location.replace(originalUrl), 2000);
     }
-  }, [originalUrl, isError]);
+  }, [originalUrl, isError, updateVisits]);
 
   return (
     <Card className="flex flex-col items-center justify-center px-5 py-12 gap-6 sm:max-w-[580px] self-center">

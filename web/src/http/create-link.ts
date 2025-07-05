@@ -6,7 +6,6 @@ import {
   type UseMutationResult,
 } from '@tanstack/react-query';
 import axios, { HttpStatusCode } from 'axios';
-import { toast } from 'react-toastify';
 
 export async function createLink(
   originalUrl: string,
@@ -14,7 +13,7 @@ export async function createLink(
 ): Promise<HttpStatusCode> {
   const userSessionId = getUserSessionId();
 
-  return axios.post('http://localhost:3333/link', {
+  return axios.post(`${import.meta.env.VITE_BACKEND_URL}/link`, {
     originalUrl,
     shortUrl,
     userSessionId,
