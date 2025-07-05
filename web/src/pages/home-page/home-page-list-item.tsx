@@ -37,7 +37,7 @@ export function HomePageListItem({
           <span className="text-xs text-gray-500">{originalUrl}</span>
         </div>
         <span className="text-xs text-gray-500">{`${visits} acessos`}</span>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Button variant="icon" onClick={handleCopyToClipboard}>
             <CopyIcon size={16} className="text-gray-600" />
           </Button>
