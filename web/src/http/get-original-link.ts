@@ -20,5 +20,6 @@ export function useGetOriginalLink(shortUrl: string) {
     queryKey: ['original-link', shortUrl],
     queryFn: () => getOriginalLink(shortUrl),
     retry: false,
+    staleTime: 0,
   });
 }

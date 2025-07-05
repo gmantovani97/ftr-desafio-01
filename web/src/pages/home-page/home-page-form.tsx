@@ -74,12 +74,7 @@ export function HomePageForm() {
             {...register('shortUrl')}
           />
         </div>
-        <Button
-          className="mt-5"
-          type="submit"
-          isLoading={isPending}
-          disabled={!isValid}
-        >
+        <Button className="mt-5" type="submit" isLoading={isPending}>
           Salvar link
         </Button>
       </form>
