@@ -2,25 +2,17 @@ import { Button, Card } from '@/components';
 import { useGetLinks } from '@/http/get-links';
 import { DownloadSimpleIcon, LinkIcon } from '@phosphor-icons/react';
 import { HomePageListItem } from './home-page-list-item';
-import { useToast } from '@/hooks/useToast';
+import { useCreateReport } from '@/http/create-report';
 
 export function HomePageLinksList() {
   const { data, isLoading, isError } = useGetLinks();
-  const { notify } = useToast();
+  const { mutate: createReport } = useCreateReport();
 
   return (
     <Card isLoading={isLoading}>
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-bold">Meus links</h1>
-        <Button
-          variant="secondary"
-          onClick={() =>
-            notify({
-              message: 'Download realizado com sucesso',
-              type: 'success',
-            })
-          }
-        >
+        <Button variant="secondary" onClick={() => createReport()}>
           <DownloadSimpleIcon size={16} />
           Baixar CSV
         </Button>
